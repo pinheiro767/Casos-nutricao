@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30 Casos Clínicos — Sistema Esquelético na Nutrição</title>
+  <meta name="theme-color" content="#0b1020" />
+  <style>
+    :root{
+      --bg:#07101f;
+      --bg2:#0d1830;
+      --card:#111f3d;
+      --card2:#17284d;
+      --line:rgba(255,255,255,.12);
+      --text:#eef4ff;
+      --muted:#b3c1e6;
+      --accent:#7aa2ff;
+      --accent2:#72e4ff;
+      --ok:#35d39a;
+      --warn:#ffd166;
+      --danger:#ff7b9d;
+      --shadow:0 18px 48px rgba(0,0,0,.35);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(122,162,255,.20), transparent 22%),
+        radial-gradient(circle at top right, rgba(114,228,255,.12), transparent 18%),
+        linear-gradient(180deg, var(--bg) 0%, #091427 45%, #050b16 100%);
+      min-height:100vh;
+    }
+    .wrap{max-width:1300px;margin:0 auto;padding:24px}
+    .hero{
+      background:linear-gradient(135deg, rgba(122,162,255,.16), rgba(114,228,255,.08));
+      border:1px solid var(--line);
+      border-radius:30px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:260px;height:260px;
+      right:-70px;top:-70px;
+      background:radial-gradient(circle, rgba(114,228,255,.25), transparent 70%);
+      filter:blur(4px);
+    }
+    h1,h2,h3,p{margin:0}
+    .title{font-size:clamp(1.8rem,3vw,3rem);font-weight:800;line-height:1.08}
+    .subtitle{margin-top:12px;color:var(--muted);max-width:880px;line-height:1.6}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .chip{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:.95rem;
+    }
+    .toolbar{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr .8fr;
+      gap:14px;
+    }
+    .panel{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:16px;
+    }
+    label{display:block;font-size:.92rem;color:var(--muted);margin-bottom:8px}
+    input,select,button{
+      width:100%;border:none;outline:none;font:inherit;border-radius:14px;
+    }
+    input,select{
+      padding:13px 14px;
+      background:#071225;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    button{
+      cursor:pointer;
+      padding:13px 16px;
+      font-weight:700;
+      transition:.2s transform ease,.2s opacity ease,.2s background ease;
+    }
+    button:hover{transform:translateY(-1px)}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),#5c8fff);color:#08101d}
+    .btn-secondary{background:#112142;color:var(--text);border:1px solid var(--line)}
+    .btn-prof{background:linear-gradient(135deg,#8d7bff,#5ecbff);color:#08101d}
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin:24px 0;
+    }
+    .stat{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    .stat strong{display:block;font-size:1.55rem;margin-bottom:6px}
+    .stat span{color:var(--muted);font-size:.95rem}
+    .cases{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:18px;
+      margin-top:10px;
+    }
+    .case{
+      background:linear-gradient(180deg, var(--card), var(--card2));
+      border:1px solid var(--line);
+      border-radius:26px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+    .case-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .case-number{
+      width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+      background:linear-gradient(135deg,rgba(122,162,255,.22),rgba(114,228,255,.16));
+      border:1px solid var(--line);font-weight:800;
+    }
+    .badge{
+      padding:8px 12px;border-radius:999px;font-size:.82rem;font-weight:700;
+      border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--muted);
+      white-space:nowrap;
+    }
+    .case h3{font-size:1.16rem;line-height:1.35}
+    .case p{line-height:1.66;color:var(--text)}
+    .muted{color:var(--muted)}
+    .question-box,.answer{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+    }
+    .question-box h4,.answer h4{margin-bottom:10px;font-size:.96rem}
+    ul{margin:0;padding-left:18px;line-height:1.65}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .actions button{width:auto;padding:11px 14px}
+    .answer{display:none}
+    .answer.open{display:block;animation:fade .25s ease}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .footer{
+      margin-top:28px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+    .hidden{display:none !important}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap}
+    .small{font-size:.9rem;color:var(--muted)}
+    .pin-hint{font-size:.83rem;color:var(--warn);margin-top:8px}
+    @media (max-width:1080px){
+      .toolbar,.stats,.cases{grid-template-columns:1fr}
+    }
+    @media (max-width:760px){
+      .wrap{padding:14px}
+      .hero{padding:20px}
+      .case{padding:18px}
+      .title{font-size:1.7rem}
+    }
+    @media print{
+      body{background:#fff;color:#000}
+      .hero,.stat,.case,.footer,.panel,.question-box,.answer{box-shadow:none;background:#fff;color:#000}
+      .toolbar,.actions,.topbar .btn-secondary{display:none !important}
+      .answer{display:block !important}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1 class="title">30 Casos Clínicos — Sistema Esquelético aplicado à Nutrição</h1>
+      <p class="subtitle">
+        Material em HTML pronto para GitHub Pages, com linguagem voltada ao 1º ano de Nutrição em Anatomia Humana. Cada caso aborda estrutura óssea, metabolismo mineral, crescimento, remodelação, osteoporose, raquitismo, osteomalácia, fraturas, composição corporal e relações clínicas com a alimentação.
+      </p>
+
+      <div class="chips">
+        <div class="chip">Nutrição • 1º ano</div>
+        <div class="chip">Sistema Esquelético</div>
+        <div class="chip">30 casos clínicos</div>
+        <div class="chip">Botão Professor com senha</div>
+        <div class="chip">Pronto para GitHub</div>
+      </div>
+
+      <div class="toolbar">
+        <div class="panel">
+          <label for="searchInput">Pesquisar por tema, nutriente, doença ou osso</label>
+          <input id="searchInput" type="text" placeholder="Ex.: cálcio, osteoporose, fêmur, vitamina D..." />
+        </div>
+        <div class="panel">
+          <label for="filterSelect">Filtrar por foco</label>
+          <select id="filterSelect">
+            <option value="todos">Todos os casos</option>
+            <option value="calcio">Cálcio</option>
+            <option value="vitamina d">Vitamina D</option>
+            <option value="osteoporose">Osteoporose</option>
+            <option value="crescimento">Crescimento ósseo</option>
+            <option value="fratura">Fraturas</option>
+            <option value="idoso">Idoso</option>
+          </select>
+        </div>
+        <div class="panel">
+          <label>Ações rápidas</label>
+          <button class="btn-primary" onclick="window.print()">Salvar / Imprimir em PDF</button>
+          <div class="pin-hint">Na impressão, as respostas do professor aparecem.</div>
+        </div>
+        <div class="panel">
+          <label>Status do modo professor</label>
+          <button id="globalProfBtn" class="btn-prof" onclick="toggleProfessorMode()">Ativar modo professor</button>
+          <div id="profStatus" class="pin-hint">Bloqueado por senha.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="topbar">
+      <div class="small">Use em aula teórica, estudo dirigido, prática avaliativa ou discussão em grupo.</div>
+      <button class="btn-secondary" onclick="expandAllAnswers()">Mostrar todas as respostas</button>
+    </div>
+
+    <section class="stats">
+      <div class="stat"><strong>30</strong><span>casos clínicos descritivos</span></div>
+      <div class="stat"><strong>1</strong><span>senha do professor: prof2026</span></div>
+      <div class="stat"><strong>HTML</strong><span>arquivo único, fácil de subir no GitHub</span></div>
+      <div class="stat"><strong>Nutrição</strong><span>foco anatômico com aplicação clínica</span></div>
+    </section>
+
+    <section id="casesContainer" class="cases"></section>
+
+    <section class="footer">
+      <strong>Responsável tecnológico:</strong> Cláudia Pinheiro<br>
+      Material didático para Anatomia Humana — Nutrição. As respostas do professor funcionam com senha individual por caso e também por modo professor global. Pode ser hospedado diretamente no GitHub Pages como arquivo <code>index.html</code>.
+    </section>
+  </div>
+
+  <script>
+    const PASSWORD = 'prof2026';
+    let professorMode = false;
+
+    const cases = [
+      {
+        titulo:'Fratura de colo do fêmur em idosa com baixa ingestão de cálcio',
+        badge:'idoso • fratura • cálcio',
+        texto:'Uma mulher de 72 anos, com histórico de alimentação pobre em leite e derivados, refere que vem evitando alimentos fonte de cálcio há muitos anos por desconforto digestivo. Sofreu uma queda da própria altura dentro de casa e apresentou fratura de colo do fêmur. No acompanhamento nutricional, relata baixa exposição solar, baixo consumo proteico e perda de massa muscular nos últimos anos.',
+        perguntas:[
+          'Qual osso foi acometido e como ele é classificado quanto à forma?',
+          'Que relação existe entre baixa ingestão de cálcio, envelhecimento e fragilidade óssea?',
+          'Quais nutrientes devem ser lembrados na prevenção desse quadro?'
+        ],
+        resposta:'O osso acometido é o fêmur, classificado como osso longo. O envelhecimento favorece perda de massa óssea, e a baixa ingestão de cálcio, associada à deficiência de vitamina D e de proteínas, compromete a mineralização e a remodelação óssea, aumentando o risco de osteoporose e fraturas. Devem ser lembrados cálcio, vitamina D, fósforo, magnésio e proteínas adequadas.'
+      },
+      {
+        titulo:'Adolescente com dor óssea difusa e pouca exposição solar',
+        badge:'vitamina D • crescimento',
+        texto:'Uma adolescente de 14 anos passa grande parte do dia em ambientes fechados, evita atividades ao ar livre e relata alimentação pobre em ovos, peixes e laticínios. Apresenta dores em membros inferiores, cansaço frequente e exame laboratorial com baixos níveis de vitamina D.',
+        perguntas:[
+          'Qual a importância da vitamina D para o sistema esquelético?',
+          'Em que processo do tecido ósseo essa deficiência interfere?',
+          'Qual a consequência clínica possível em uma fase de crescimento?'
+        ],
+        resposta:'A vitamina D é fundamental para a absorção intestinal de cálcio e fósforo e, portanto, para a mineralização adequada do tecido ósseo. Sua deficiência compromete a formação e o endurecimento da matriz óssea. Em fases de crescimento, pode levar a defeitos de mineralização, atraso no desenvolvimento ósseo e quadro compatível com raquitismo.'
+      },
+      {
+        titulo:'Criança com arqueamento de pernas e dieta restritiva',
+        badge:'raquitismo • vitamina D • cálcio',
+        texto:'Uma criança de 3 anos apresenta arqueamento progressivo dos membros inferiores, atraso para correr e baixo consumo alimentar variado. A família relata preferência alimentar muito restrita, com rejeição a leite, queijo, iogurte e ovos. A criança passa pouco tempo ao sol.',
+        perguntas:[
+          'Que doença deve ser suspeitada neste contexto?',
+          'Que componentes nutricionais e ambientais estão relacionados ao quadro?',
+          'Como o problema afeta o tecido ósseo em crescimento?'
+        ],
+        resposta:'Deve-se suspeitar de raquitismo. O quadro se relaciona principalmente à deficiência de vitamina D, ingestão inadequada de cálcio e baixa exposição solar. Em crianças, a mineralização do tecido ósseo em crescimento fica prejudicada, levando a deformidades, atraso motor e fragilidade óssea.'
+      },
+      {
+        titulo:'Universitária vegana com fratura por estresse em metatarso',
+        badge:'fratura • metatarso • planejamento alimentar',
+        texto:'Uma estudante de 19 anos, praticante de corrida, segue dieta vegana sem acompanhamento profissional. Relata ingestão proteica irregular, baixa variedade de vegetais verde-escuros e ausência de alimentos fortificados. Após aumento intenso do treino, apresentou dor localizada no pé e foi diagnosticada com fratura por estresse em metatarso.',
+        perguntas:[
+          'O metatarso é classificado como que tipo de osso?',
+          'Quais fatores nutricionais podem ter contribuído para a fratura por estresse?',
+          'Que orientações gerais seriam pertinentes em um caso como esse?'
+        ],
+        resposta:'Os metatarsos são ossos longos. Podem contribuir para o quadro ingestão insuficiente de cálcio, vitamina D, proteínas e energia total, além de eventual baixo consumo de fósforo e outros minerais. É pertinente revisar adequação energética, qualidade proteica, fontes vegetais e fortificadas de cálcio, necessidade de suplementação quando indicada e equilíbrio entre treino e recuperação.'
+      },
+      {
+        titulo:'Idosa com osteoporose e medo de consumir leite por “inflamação”',
+        badge:'osteoporose • cálcio • idoso',
+        texto:'Uma paciente de 68 anos chega ao ambulatório com diagnóstico prévio de osteoporose. Ela retirou leite, iogurte e queijo da dieta após informações de redes sociais de que esses alimentos “inflamam os ossos”. Relata consumo alimentar monótono, pouca força muscular e histórico familiar de fraturas vertebrais.',
+        perguntas:[
+          'Qual a relação entre osteoporose e composição mineral óssea?',
+          'Quais são os riscos de excluir grupos alimentares sem substituição adequada?',
+          'Que estruturas ósseas sofrem grande impacto nas fraturas osteoporóticas?'
+        ],
+        resposta:'Na osteoporose há redução da massa óssea e deterioração da microarquitetura do tecido, tornando o osso mais frágil. Excluir fontes de cálcio sem substituição adequada pode agravar inadequações nutricionais. Fraturas osteoporóticas ocorrem com frequência em vértebras, colo do fêmur e rádio distal. A orientação deve ser baseada em evidência, com reposição alimentar adequada.'
+      },
+      {
+        titulo:'Homem com alcoolismo crônico e múltiplas queixas musculoesqueléticas',
+        badge:'osteomalácia • vitamina D',
+        texto:'Um homem de 54 anos com longa história de alcoolismo relata fraqueza, dor óssea e dificuldade para subir escadas. Apresenta alimentação desorganizada, perda de peso e exames sugestivos de deficiência nutricional global. Há suspeita de alteração na mineralização óssea.',
+        perguntas:[
+          'Qual alteração esquelética pode ocorrer em adultos por falha de mineralização?',
+          'Em que essa condição difere do raquitismo?',
+          'Por que o estado nutricional global importa para a saúde óssea?'
+        ],
+        resposta:'Em adultos, a falha de mineralização pode levar à osteomalácia. Diferentemente do raquitismo, ela ocorre após o fechamento das placas epifisárias. O estado nutricional global importa porque a saúde óssea depende de energia, proteínas, cálcio, fósforo, vitamina D, magnésio e adequado funcionamento hepático e intestinal, entre outros fatores.'
+      },
+      {
+        titulo:'Paciente pós-cirurgia bariátrica com perda óssea acelerada',
+        badge:'absorção • cálcio • vitamina D',
+        texto:'Uma paciente de 39 anos, após cirurgia bariátrica, apresenta perda ponderal importante, porém refere dores ósseas, fraqueza e piora de exames densitométricos ao longo do seguimento. Relata baixa adesão à suplementação prescrita e dificuldade em manter ingestão proteica adequada.',
+        perguntas:[
+          'Por que esse paciente pode ter maior risco de comprometimento do sistema esquelético?',
+          'Quais nutrientes merecem atenção especial no seguimento?',
+          'Como a anatomia funcional do trato digestório influencia a saúde óssea nesse contexto?'
+        ],
+        resposta:'Pacientes após cirurgia bariátrica podem apresentar redução de absorção de nutrientes essenciais e baixa ingestão alimentar, aumentando risco de perda óssea. Merecem atenção especial cálcio, vitamina D, proteínas, ferro, vitamina B12 e outros micronutrientes, conforme técnica cirúrgica. Alterações no trato gastrointestinal podem comprometer absorção e manutenção da massa óssea.'
+      },
+      {
+        titulo:'Criança com baixa estatura e consumo insuficiente de proteínas',
+        badge:'crescimento • proteínas',
+        texto:'Uma criança em idade escolar apresenta baixa velocidade de crescimento, massa muscular reduzida e alimentação predominantemente baseada em produtos ultraprocessados, com pouca ingestão de fontes proteicas. Apesar de não haver fratura, há preocupação com desenvolvimento corporal global.',
+        perguntas:[
+          'Por que proteínas também são importantes para o tecido ósseo?',
+          'Que região anatômica do osso longo está diretamente ligada ao crescimento longitudinal?',
+          'Por que o crescimento ósseo não depende apenas de cálcio?'
+        ],
+        resposta:'As proteínas participam da formação da matriz orgânica do osso e são essenciais para crescimento, reparo e manutenção tecidual. O crescimento longitudinal ocorre na cartilagem epifisária, localizada na metáfise em ossos longos durante o desenvolvimento. O crescimento ósseo depende de múltiplos nutrientes e regulação hormonal, não apenas de cálcio.'
+      },
+      {
+        titulo:'Paciente com anorexia nervosa e redução de densidade mineral óssea',
+        badge:'baixo peso • osteopenia',
+        texto:'Uma jovem de 22 anos com histórico de restrição alimentar severa, baixo IMC e amenorreia apresenta exames com redução de densidade mineral óssea. Refere medo intenso de alimentos considerados “calóricos” e consumo muito abaixo do necessário para manutenção corporal.',
+        perguntas:[
+          'Como a restrição energética prolongada afeta o sistema esquelético?',
+          'Que elementos além do cálcio precisam ser considerados nesse quadro?',
+          'Por que a perda de massa óssea em pessoas jovens preocupa tanto?'
+        ],
+        resposta:'A restrição energética prolongada compromete síntese proteica, produção hormonal, remodelação óssea e manutenção da densidade mineral. Devem ser considerados energia total, proteínas, cálcio, vitamina D, fósforo, estado hormonal e composição corporal. Em jovens, a perda de massa óssea é preocupante porque prejudica a aquisição do pico de massa óssea e aumenta risco futuro de fragilidade.'
+      },
+      {
+        titulo:'Dor lombar em idosa com fraturas vertebrais por compressão',
+        badge:'vértebra • osteoporose • idoso',
+        texto:'Uma paciente de 75 anos refere redução de estatura ao longo dos anos, cifose acentuada e episódios de dor lombar. Exames mostram fraturas vertebrais por compressão. Ela vive sozinha, alimenta-se mal e quase não realiza atividades externas.',
+        perguntas:[
+          'As vértebras são classificadas como que tipo de osso?',
+          'Que sinais clínicos sugerem fragilidade esquelética vertebral?',
+          'Que fatores do estilo de vida e da nutrição agravam esse quadro?'
+        ],
+        resposta:'As vértebras são ossos irregulares. Redução de estatura, cifose progressiva e dor lombar associadas a fraturas por compressão sugerem fragilidade óssea. Alimentação insuficiente, baixa ingestão de cálcio e proteínas, pouca exposição solar, sedentarismo e envelhecimento contribuem para agravamento do quadro.'
+      },
+      {
+        titulo:'Paciente com intolerância à lactose que retirou todas as fontes de cálcio',
+        badge:'cálcio • substituições alimentares',
+        texto:'Uma mulher de 31 anos recebeu diagnóstico de intolerância à lactose e, desde então, excluiu leite e derivados sem substituições. Consome poucas verduras escuras, não utiliza bebidas fortificadas e relata preocupação com enfraquecimento ósseo por histórico familiar de osteopenia.',
+        perguntas:[
+          'Por que a exclusão total sem planejamento pode ser problemática?',
+          'Que conceito anatômico ajuda a entender que os ossos são metabolicamente ativos?',
+          'Quais substituições alimentares gerais devem ser consideradas?'
+        ],
+        resposta:'A exclusão total sem planejamento pode resultar em ingestão inadequada de cálcio e outros nutrientes relevantes. O osso é um tecido vivo e metabolicamente ativo, em constante remodelação. Devem ser consideradas fontes alternativas e fortificadas de cálcio, vegetais adequados, orientação sobre tolerância individual e planejamento nutricional individualizado.'
+      },
+      {
+        titulo:'Atleta com tríade da mulher atleta e lesão óssea recorrente',
+        badge:'fratura • baixa energia • mulher',
+        texto:'Uma atleta universitária de corrida de longa distância apresenta irregularidade menstrual, ingestão energética insuficiente e repetidas dores ósseas em tíbia e metatarsos. Já teve afastamento prévio por suspeita de fratura por estresse.',
+        perguntas:[
+          'Como a baixa disponibilidade energética impacta o tecido ósseo?',
+          'Que ossos foram mencionados e como podem ser classificados?',
+          'Que orientação interdisciplinar é essencial nesse caso?'
+        ],
+        resposta:'Baixa disponibilidade energética compromete equilíbrio hormonal, remodelação óssea e reparo tecidual, elevando risco de fraturas por estresse. Tíbia e metatarsos são ossos longos. O caso exige abordagem interdisciplinar envolvendo nutrição, medicina e treinamento, com correção da ingestão energética, adequação proteica e mineral, além de reavaliação da carga de exercício.'
+      },
+      {
+        titulo:'Idoso institucionalizado com pouca mastigação e risco de osteopenia',
+        badge:'idoso • mastigação • cálcio',
+        texto:'Um idoso em instituição de longa permanência perdeu vários dentes, passou a rejeitar carnes e vegetais mais fibrosos e reduziu bastante o consumo de alimentos fontes de proteína e minerais. Sua rotina envolve pouca exposição ao sol e mobilidade reduzida.',
+        perguntas:[
+          'Como limitações mastigatórias podem repercutir indiretamente na saúde óssea?',
+          'Quais carências nutricionais são prováveis?',
+          'Por que a mobilidade reduzida também entra na análise do caso?'
+        ],
+        resposta:'Limitações mastigatórias podem reduzir a ingestão de alimentos importantes para manutenção da massa óssea e muscular, favorecendo inadequação de proteínas, cálcio e micronutrientes. A mobilidade reduzida também é relevante porque menor sobrecarga mecânica e menor exposição solar contribuem para perda óssea e pior funcionalidade.'
+      },
+      {
+        titulo:'Adulto com doença celíaca e fragilidade óssea',
+        badge:'absorção intestinal • osteopenia',
+        texto:'Um homem de 36 anos, com emagrecimento, diarreia crônica e diagnóstico recente de doença celíaca, apresenta densidade mineral óssea reduzida. Antes do diagnóstico, mantinha alimentação aparentemente suficiente em cálcio, mas havia má absorção persistente.',
+        perguntas:[
+          'Por que a saúde intestinal influencia diretamente o sistema esquelético?',
+          'Que nutrientes podem estar comprometidos por má absorção?',
+          'Como esse caso ajuda a diferenciar ingestão de aproveitamento metabólico?'
+        ],
+        resposta:'A saúde intestinal influencia a absorção de nutrientes essenciais ao osso. Na má absorção, mesmo com ingestão aparentemente adequada, o organismo pode não aproveitar cálcio, vitamina D, proteínas e outros nutrientes da forma necessária. O caso mostra que não basta ingerir; é preciso absorver e utilizar adequadamente esses componentes.'
+      },
+      {
+        titulo:'Mulher no climatério com consumo alimentar desorganizado',
+        badge:'climatério • osteoporose',
+        texto:'Uma mulher de 49 anos procura atendimento por medo de osteoporose, pois sua mãe e sua avó tiveram fraturas após os 60 anos. Ela consome pouca proteína, reduz muito a alimentação ao longo do dia para “compensar” à noite e raramente ingere alimentos fonte de cálcio.',
+        perguntas:[
+          'Por que o climatério merece atenção especial em relação ao sistema esquelético?',
+          'Que medidas nutricionais preventivas podem ser discutidas?',
+          'Por que o histórico familiar não deve ser ignorado?'
+        ],
+        resposta:'O climatério merece atenção porque alterações hormonais podem acelerar perda de massa óssea. Medidas preventivas incluem adequação de cálcio, vitamina D, proteínas e padrão alimentar equilibrado, além de hábitos de vida saudáveis. O histórico familiar aumenta a necessidade de vigilância e prevenção precoce.'
+      },
+      {
+        titulo:'Criança com múltiplas fraturas e suspeita de alteração genética óssea',
+        badge:'fragilidade óssea • diferencial',
+        texto:'Uma criança de 7 anos apresenta histórico de várias fraturas após traumas leves, mesmo com alimentação considerada adequada pelos responsáveis. A equipe levanta hipótese de alteração estrutural do tecido conjuntivo ósseo, exigindo diferenciação entre causas nutricionais e outras etiologias.',
+        perguntas:[
+          'Por que nem toda fragilidade óssea é explicada apenas pela alimentação?',
+          'Qual a importância de correlacionar nutrição com anatomia e patologia?',
+          'Como o nutricionista pode contribuir mesmo diante de etiologia não nutricional principal?'
+        ],
+        resposta:'Nem toda fragilidade óssea decorre apenas de deficiência alimentar; há causas genéticas, endócrinas, metabólicas e estruturais. Correlacionar nutrição com anatomia e patologia é essencial para não simplificar o raciocínio clínico. O nutricionista pode contribuir otimizando ingestão, recuperação, suporte ao crescimento e qualidade global da dieta.'
+      },
+      {
+        titulo:'Adolescente com obesidade e dor no joelho durante crescimento',
+        badge:'crescimento • sobrecarga',
+        texto:'Um adolescente com obesidade refere dor em joelho e redução da prática esportiva. Alimenta-se com excesso de ultraprocessados e baixa qualidade nutricional. Embora o peso corporal seja elevado, a ingestão de micronutrientes é insatisfatória, e a rotina envolve pouco exercício ao ar livre.',
+        perguntas:[
+          'Por que excesso de peso não significa proteção óssea automática?',
+          'Como sobrecarga mecânica e dieta de baixa qualidade se associam?',
+          'Que eixo anatômico-funcional pode ser discutido com a turma nesse caso?'
+        ],
+        resposta:'Excesso de peso não garante qualidade óssea, pois a dieta pode ser pobre em micronutrientes e a composição corporal desfavorável. Sobrecarga mecânica somada a inatividade, inflamação metabólica e dieta inadequada pode agravar desconfortos e problemas osteoarticulares. Pode-se discutir alinhamento dos membros inferiores, joelho e impacto funcional sobre o aparelho locomotor.'
+      },
+      {
+        titulo:'Paciente com uso crônico de corticoide e perda óssea',
+        badge:'medicação • osteoporose secundária',
+        texto:'Uma mulher de 45 anos em uso prolongado de corticoide por doença autoimune apresenta redução progressiva da densidade mineral óssea. Relata apetite irregular, pouca ingestão de laticínios e baixa prática de exercícios.',
+        perguntas:[
+          'Por que esse caso é exemplo de osteoporose secundária?',
+          'Que fatores nutricionais podem piorar o quadro?',
+          'Que orientação anatômico-clínica pode ser explorada em aula?'
+        ],
+        resposta:'É exemplo de osteoporose secundária porque a perda óssea está relacionada a condição clínica e medicamento associado. Baixa ingestão de cálcio, vitamina D e proteínas pode piorar o quadro. Em aula, pode-se discutir remodelação óssea, risco de fraturas vertebrais e de colo do fêmur, além do papel da intervenção nutricional preventiva.'
+      },
+      {
+        titulo:'Lactente alimentado sem suplementação adequada',
+        badge:'infância • mineralização',
+        texto:'Um lactente em fase de introdução alimentar apresenta sinais de atraso no desenvolvimento motor e alimentação complementar desbalanceada, com orientações inadequadas fornecidas por familiares. Há suspeita de ingestão insuficiente de micronutrientes essenciais ao crescimento.',
+        perguntas:[
+          'Por que o início da vida é decisivo para a saúde óssea futura?',
+          'Que conceito de pico de massa óssea pode ser introduzido a partir desse caso?',
+          'Que erro de raciocínio deve ser evitado ao avaliar a dieta infantil?'
+        ],
+        resposta:'O início da vida é decisivo porque crescimento e desenvolvimento dependem de adequada oferta nutricional e formação tecidual. O caso permite introduzir o conceito de que a construção da saúde óssea começa cedo e influencia o pico de massa óssea futuro. Deve-se evitar avaliar a dieta infantil apenas por volume, sem considerar densidade nutricional e adequação qualitativa.'
+      },
+      {
+        titulo:'Adulto jovem com dieta hiperproteica e baixo consumo de frutas e verduras',
+        badge:'equilíbrio alimentar • osso',
+        texto:'Um homem de 27 anos, focado em hipertrofia, consome grande quantidade de proteína, porém tem ingestão muito baixa de frutas, verduras e laticínios. Acredita que apenas proteína “constrói osso e músculo” e ignora outros componentes da dieta.',
+        perguntas:[
+          'Por que a saúde óssea depende de equilíbrio e não de um único nutriente?',
+          'Que minerais e vitaminas devem ser lembrados nessa discussão?',
+          'Como aproveitar o caso para discutir reducionismo alimentar com a turma?'
+        ],
+        resposta:'A saúde óssea depende do equilíbrio entre múltiplos nutrientes e do funcionamento metabólico global, não de um único componente. Devem ser lembrados cálcio, fósforo, magnésio, vitamina D e proteínas adequadas, além de padrão alimentar equilibrado. O caso permite discutir o erro do reducionismo alimentar e a visão integrada do metabolismo ósseo.'
+      },
+      {
+        titulo:'Paciente acamada com perda rápida de massa óssea',
+        badge:'desuso • idoso',
+        texto:'Uma paciente de 80 anos ficou acamada por longo período após internação. Desde então, houve piora da força, redução do apetite, baixo consumo alimentar e maior dependência funcional. A família observa que ela “ficou mais frágil” em poucos meses.',
+        perguntas:[
+          'Como o desuso afeta o sistema esquelético?',
+          'Por que esse caso deve ser analisado junto com perda muscular?',
+          'Que pontos nutricionais são prioritários nesse acompanhamento?'
+        ],
+        resposta:'O desuso reduz estímulo mecânico ao osso, favorecendo perda de massa óssea. O caso deve ser analisado junto com perda muscular porque massa óssea e muscular se influenciam funcionalmente. São prioritários energia, proteínas, cálcio, vitamina D, hidratação adequada e suporte alimentar compatível com a condição clínica.'
+      },
+      {
+        titulo:'Menina com seletividade alimentar extrema e risco para deficiência mineral',
+        badge:'infância • seletividade',
+        texto:'Uma menina de 6 anos aceita poucos alimentos: biscoitos, arroz branco, macarrão simples e algumas bebidas açucaradas. Recusa quase todas as fontes de cálcio e proteína. Os responsáveis procuram orientação porque ela está mais cansada e apresenta pouco interesse por brincadeiras ativas.',
+        perguntas:[
+          'Que repercussões a seletividade alimentar pode ter sobre o tecido ósseo?',
+          'Por que a infância é janela crítica para prevenção futura?',
+          'Que abordagem educativa faz sentido além da simples prescrição?'
+        ],
+        resposta:'A seletividade alimentar pode comprometer ingestão de cálcio, proteínas, vitamina D e outros nutrientes fundamentais ao crescimento ósseo. A infância é janela crítica porque a construção da massa óssea ocorre ao longo do desenvolvimento. Além da prescrição, é importante educação alimentar, manejo comportamental e orientação familiar gradual.'
+      },
+      {
+        titulo:'Paciente com hiperparatireoidismo e repercussões ósseas',
+        badge:'hormônios • cálcio',
+        texto:'Um paciente em investigação endocrinológica apresenta alterações no metabolismo do cálcio e sinais de perda óssea. A turma é convidada a analisar como o sistema esquelético funciona como reserva mineral e como isso aparece clinicamente.',
+        perguntas:[
+          'Por que o osso é considerado reserva mineral do organismo?',
+          'Que relação existe entre regulação hormonal e remodelação óssea?',
+          'Como a Nutrição participa mesmo quando o fator principal é endócrino?'
+        ],
+        resposta:'O osso é reserva mineral porque armazena grande parte do cálcio e do fósforo do organismo. A regulação hormonal interfere continuamente na remodelação óssea e no equilíbrio mineral. A Nutrição participa garantindo substratos adequados, evitando agravamento de deficiências e sustentando o manejo clínico global.'
+      },
+      {
+        titulo:'Jovem com fratura distal de rádio após trauma simples',
+        badge:'rádio • fratura',
+        texto:'Uma estudante de 20 anos caiu ao tentar se proteger com a mão durante uma corrida leve. Sofreu fratura distal de rádio e, na anamnese, revelou dieta muito pobre em alimentos fontes de cálcio e histórico de emagrecimento rápido recente.',
+        perguntas:[
+          'O rádio é classificado como que tipo de osso?',
+          'Que sinais da história alimentar merecem atenção?',
+          'Como discutir com os alunos o conceito de fragilidade além do trauma em si?'
+        ],
+        resposta:'O rádio é um osso longo. Merecem atenção a baixa ingestão de cálcio, possível inadequação proteica e emagrecimento rápido, que pode indicar restrição energética. O caso permite discutir que nem toda fratura depende apenas da intensidade do trauma; a qualidade óssea prévia também importa.'
+      },
+      {
+        titulo:'Homem com baixa exposição solar por trabalho noturno',
+        badge:'vitamina D • rotina',
+        texto:'Um homem de 42 anos trabalha à noite, dorme durante o dia e quase não se expõe ao sol. Relata alimentação irregular e poucas fontes de vitamina D. Queixa-se de cansaço, dores corporais e piora progressiva do condicionamento físico.',
+        perguntas:[
+          'Como a rotina pode interferir no metabolismo ósseo?',
+          'Quais fontes alimentares e não alimentares devem ser lembradas?',
+          'Que vínculo entre trabalho, estilo de vida e sistema esquelético pode ser explorado em aula?'
+        ],
+        resposta:'A rotina pode interferir principalmente por reduzir exposição solar e favorecer hábitos alimentares inadequados, com impacto sobre vitamina D e saúde óssea. Devem ser lembradas fontes alimentares adequadas e orientação sobre exposição solar compatível com segurança. O caso mostra a influência do estilo de vida sobre o sistema esquelético.'
+      },
+      {
+        titulo:'Paciente com dieta “detox” prolongada e dores ósseas',
+        badge:'restrição • baixa energia',
+        texto:'Uma mulher de 34 anos passou meses fazendo dietas líquidas e “detox” repetidos, com ingestão muito reduzida de proteínas e baixo teor calórico. Começou a referir dores em região lombar e nos membros inferiores, além de fadiga importante.',
+        perguntas:[
+          'Por que dietas restritivas prolongadas ameaçam a saúde óssea?',
+          'Quais elementos do tecido ósseo dependem da presença de matriz orgânica e mineral?',
+          'Como o caso pode ser usado para discutir modismos alimentares?'
+        ],
+        resposta:'Dietas restritivas prolongadas comprometem energia, proteínas e micronutrientes, afetando remodelação, matriz óssea e mineralização. O tecido ósseo depende de matriz orgânica rica em colágeno e de mineralização adequada por cálcio e fósforo, entre outros fatores. O caso é útil para discutir modismos e riscos de estratégias sem respaldo técnico.'
+      },
+      {
+        titulo:'Idosa com cifose importante e baixa ingestão proteica',
+        badge:'vértebras • idoso • proteína',
+        texto:'Uma idosa de 77 anos apresenta cifose torácica acentuada, perda de força, dificuldade para carregar compras e ingestão proteica muito abaixo do recomendado. Consome poucas refeições ao dia e raramente sai de casa.',
+        perguntas:[
+          'Que relação existe entre proteína, músculo e osso nesse caso?',
+          'Por que a alteração postural pode estar associada a comprometimento vertebral?',
+          'Como a intervenção nutricional pode auxiliar na prevenção de novas complicações?'
+        ],
+        resposta:'Proteína insuficiente favorece perda muscular e compromete matriz óssea e funcionalidade, aumentando risco de quedas e fraturas. A cifose pode estar associada a fraturas vertebrais por fragilidade e alterações estruturais da coluna. A intervenção nutricional pode melhorar aporte proteico e mineral, contribuindo para manutenção da autonomia e redução de risco.'
+      },
+      {
+        titulo:'Paciente renal crônico com alterações mineral-ósseas',
+        badge:'rim • metabolismo mineral',
+        texto:'Um paciente com doença renal crônica apresenta alterações laboratoriais de metabolismo mineral e sinais de comprometimento ósseo. A discussão em sala busca integrar anatomia, fisiologia mineral e cuidado nutricional.',
+        perguntas:[
+          'Por que doenças sistêmicas podem repercutir diretamente no esqueleto?',
+          'Qual o papel do equilíbrio cálcio-fósforo nessa análise?',
+          'Como esse caso amplia a visão do estudante sobre o sistema esquelético?'
+        ],
+        resposta:'Doenças sistêmicas podem repercutir no esqueleto porque o osso participa ativamente da homeostase mineral. O equilíbrio entre cálcio e fósforo é central no metabolismo ósseo. O caso amplia a visão do estudante ao mostrar que o esqueleto não é apenas estrutura de sustentação, mas parte de um sistema metabólico integrado.'
+      },
+      {
+        titulo:'Jovem com consumo excessivo de refrigerantes e baixa ingestão láctea',
+        badge:'cálcio • adolescência',
+        texto:'Um adolescente substitui quase toda a ingestão de leite e iogurte por refrigerantes e bebidas açucaradas. A família procura orientação porque ele está em fase de crescimento rápido e apresenta alimentação muito pobre em nutrientes reguladores.',
+        perguntas:[
+          'Por que esse padrão alimentar é preocupante na adolescência?',
+          'Como a fase de crescimento intensifica o impacto das inadequações?',
+          'Que orientação educativa pode ser construída sem moralismo alimentar?'
+        ],
+        resposta:'Esse padrão é preocupante porque reduz oferta de nutrientes essenciais ao crescimento ósseo em uma fase de alta demanda. Na adolescência, inadequações repetidas comprometem aquisição do pico de massa óssea. A orientação educativa deve focar substituições viáveis, rotina alimentar, qualidade global e compreensão do papel dos nutrientes, sem abordagens moralistas.'
+      },
+      {
+        titulo:'Paciente com sarcopenia, quedas recorrentes e fraturas',
+        badge:'idoso • sarcopenia • fratura',
+        texto:'Um idoso de 82 anos apresenta perda muscular importante, múltiplas quedas nos últimos meses e histórico de fratura de punho. Alimenta-se mal, pula refeições e refere pouca sede. Os familiares observam redução marcante da autonomia.',
+        perguntas:[
+          'Por que massa muscular e massa óssea devem ser avaliadas em conjunto?',
+          'Que tipo de fratura pode estar associada a quedas da própria altura?',
+          'Que prioridades nutricionais imediatas podem ser pensadas?'
+        ],
+        resposta:'Massa muscular e massa óssea devem ser avaliadas em conjunto porque funcionalidade, força, equilíbrio e estímulo mecânico ao osso estão interligados. Fraturas por fragilidade, como de punho, quadril e vértebras, podem ocorrer após quedas da própria altura. Entre as prioridades estão energia adequada, proteínas, cálcio, vitamina D e suporte à hidratação e à consistência alimentar, quando necessário.'
+      },
+      {
+        titulo:'Paciente com osteopenia que acredita que “só suplemento resolve”',
+        badge:'educação nutricional • osteopenia',
+        texto:'Uma mulher de 44 anos recebeu resultado de osteopenia e decidiu usar suplementos por conta própria, sem revisar padrão alimentar, sono, exposição solar ou atividade física. Ela considera desnecessário reorganizar a alimentação do dia a dia.',
+        perguntas:[
+          'Por que suplementação isolada não resume o cuidado com o sistema esquelético?',
+          'Qual a diferença entre osteopenia e osteoporose em termos gerais?',
+          'Como o nutricionista pode trabalhar adesão e compreensão do paciente?'
+        ],
+        resposta:'Suplementação isolada não substitui padrão alimentar adequado, exposição solar apropriada, saúde muscular e hábitos de vida. Em termos gerais, osteopenia indica redução de massa óssea menos intensa que na osteoporose, mas já exige atenção. O nutricionista deve trabalhar educação, adesão, individualização e compreensão do cuidado como processo integrado.'
+      },
+      {
+        titulo:'Estudante de Nutrição em plantões longos, pouco sol e alimentação irregular',
+        badge:'rotina acadêmica • prevenção',
+        texto:'Uma estudante passa o dia entre aulas, estágio e transporte, alimenta-se de forma improvisada, quase não se expõe ao sol e percebe que está sempre cansada. Ela pergunta se, sendo jovem, realmente precisa se preocupar com saúde óssea agora.',
+        perguntas:[
+          'Por que a prevenção da saúde óssea começa cedo?',
+          'Que mensagem central deve ser destacada para alunos de 1º ano?',
+          'Como conectar esse caso à prática profissional futura da Nutrição?'
+        ],
+        resposta:'A prevenção começa cedo porque a construção e manutenção da massa óssea ocorrem ao longo da vida e dependem de hábitos acumulados. A mensagem central é que o osso é um tecido vivo, dinâmico e dependente de nutrição, hormônios, movimento e exposição solar adequada. O caso conecta vivência pessoal e prática profissional, mostrando que o nutricionista orienta prevenção desde cedo.'
+      }
+    ];
+
+    const container = document.getElementById('casesContainer');
+
+    function renderCases(list){
+      container.innerHTML = '';
+      list.forEach((item, index) => {
+        const card = document.createElement('article');
+        card.className = 'case';
+        card.dataset.search = `${item.titulo} ${item.badge} ${item.texto} ${item.resposta}`.toLowerCase();
+        card.innerHTML = `
+          <div class="case-head">
+            <div style="display:flex; gap:14px; align-items:flex-start;">
+              <div class="case-number">${index + 1}</div>
+              <div>
+                <h3>${item.titulo}</h3>
+                <div class="small" style="margin-top:6px;">Tema: ${item.badge}</div>
+              </div>
+            </div>
+            <div class="badge">Caso clínico</div>
+          </div>
+
+          <p>${item.texto}</p>
+
+          <div class="question-box">
+            <h4>Questões para o aluno</h4>
+            <ul>
+              ${item.perguntas.map(q => `<li>${q}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="actions">
+            <button class="btn-secondary" onclick="toggleSingleAnswer(${index})">Resposta do professor</button>
+          </div>
+
+          <div id="answer-${index}" class="answer ${professorMode ? 'open' : ''}">
+            <h4>Resposta do professor</h4>
+            <p>${item.resposta}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      updateStats(list.length);
+    }
+
+    function updateStats(qtd){
+      document.querySelectorAll('.stat strong')[0].textContent = qtd;
+    }
+
+    function toggleSingleAnswer(index){
+      const ans = document.getElementById(`answer-${index}`);
+      if(professorMode){
+        ans.classList.toggle('open');
+        return;
+      }
+      const pin = prompt('Digite a senha do professor para visualizar a resposta:');
+      if(pin === PASSWORD){
+        ans.classList.toggle('open');
+      }else if(pin !== null){
+        alert('Senha incorreta.');
+      }
+    }
+
+    function toggleProfessorMode(){
+      if(!professorMode){
+        const pin = prompt('Digite a senha do professor para ativar o modo professor:');
+        if(pin !== PASSWORD){
+          if(pin !== null) alert('Senha incorreta.');
+          return;
+        }
+        professorMode = true;
+        document.getElementById('globalProfBtn').textContent = 'Desativar modo professor';
+        document.getElementById('profStatus').textContent = 'Modo professor ativado.';
+        document.querySelectorAll('.answer').forEach(el => el.classList.add('open'));
+      }else{
+        professorMode = false;
+        document.getElementById('globalProfBtn').textContent = 'Ativar modo professor';
+        document.getElementById('profStatus').textContent = 'Bloqueado por senha.';
+        document.querySelectorAll('.answer').forEach(el => el.classList.remove('open'));
+      }
+    }
+
+    function expandAllAnswers(){
+      if(!professorMode){
+        const pin = prompt('Digite a senha do professor para mostrar todas as respostas:');
+        if(pin !== PASSWORD){
+          if(pin !== null) alert('Senha incorreta.');
+          return;
+        }
+        professorMode = true;
+        document.getElementById('globalProfBtn').textContent = 'Desativar modo professor';
+        document.getElementById('profStatus').textContent = 'Modo professor ativado.';
+      }
+      document.querySelectorAll('.answer').forEach(el => el.classList.add('open'));
+    }
+
+    function applyFilters(){
+      const term = document.getElementById('searchInput').value.trim().toLowerCase();
+      const filter = document.getElementById('filterSelect').value;
+      const filtered = cases.filter(item => {
+        const hay = `${item.titulo} ${item.badge} ${item.texto} ${item.resposta}`.toLowerCase();
+        const matchTerm = !term || hay.includes(term);
+        const matchFilter = filter === 'todos' || hay.includes(filter);
+        return matchTerm && matchFilter;
+      });
+      renderCases(filtered);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('filterSelect').addEventListener('change', applyFilters);
+
+    renderCases(cases);
+  </script>
+</body>
+</html>
